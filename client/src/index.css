@@ -1,0 +1,746 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #023d26;
+  --color-pine: #023d26;
+  --color-mint: #fec700;
+  --color-yellow: #fec700;
+  --color-olive: #023d26;
+  --color-accent: #c82425;
+  --color-accent-dark: #9e1c1d;
+  --color-neutral: #023d26;
+  --color-deep: #023d26;
+  --color-ink: #023d26;
+  --color-cream: #ffffff;
+  --color-light: #fec700;
+  --font-sans: sans-serif;
+}
+
+.site-wrap,
+.content-wrap {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 480px) {
+  .site-wrap,
+  .content-wrap {
+    padding-inline: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .site-wrap,
+  .content-wrap {
+    padding-inline: clamp(1.35rem, 3vw, 2.25rem);
+  }
+}
+
+@media (min-width: 993px) {
+  .site-wrap,
+  .content-wrap {
+    padding-inline: clamp(1.5rem, 2.5vw, 2.75rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .site-wrap {
+    padding-inline: clamp(1.75rem, 2.8vw, 4.25rem);
+  }
+
+  .content-wrap {
+    padding-inline: max(10.5rem, 12.5vw);
+  }
+
+  /* Lot pages: no left ad rail — pull filter flush left, keep right ad gutter */
+  .content-wrap-lot {
+    padding-left: 1.25rem;
+    padding-right: max(10.5rem, 12.5vw);
+  }
+}
+
+@media (min-width: 1600px) {
+  .content-wrap {
+    padding-inline: max(12rem, 13vw);
+  }
+
+  .content-wrap-lot {
+    padding-left: 1.35rem;
+    padding-right: max(12rem, 13vw);
+  }
+}
+
+@media (min-width: 1920px) {
+  .site-wrap {
+    padding-inline: clamp(2.25rem, 2.6vw, 5rem);
+  }
+
+  .content-wrap {
+    padding-inline: max(15rem, 13.5vw);
+  }
+
+  .content-wrap-lot {
+    padding-left: 1.5rem;
+    padding-right: max(15rem, 13.5vw);
+  }
+}
+
+@media (min-width: 2400px) {
+  .content-wrap {
+    padding-inline: max(18rem, 14.5vw);
+  }
+
+  .content-wrap-lot {
+    padding-left: 1.75rem;
+    padding-right: max(18rem, 14.5vw);
+  }
+}
+
+@media (min-width: 2560px) {
+  .site-wrap {
+    padding-inline: clamp(2.5rem, 3vw, 5.5rem);
+  }
+
+  .content-wrap {
+    padding-inline: max(20rem, 15vw);
+  }
+
+  .content-wrap-lot {
+    padding-left: 2rem;
+    padding-right: max(20rem, 15vw);
+  }
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 15px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (min-width: 768px) {
+    html { font-size: 16px; }
+  }
+
+  @media (min-width: 1440px) {
+    html { font-size: 16.5px; }
+  }
+
+  @media (min-width: 1920px) {
+    html { font-size: 18px; }
+  }
+
+  @media (min-width: 2400px) {
+    html { font-size: 20px; }
+  }
+
+  @media (min-width: 2560px) {
+    html { font-size: 21px; }
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: var(--color-primary);
+    font-family: sans-serif;
+    /* clip keeps sticky filters/search working; hidden breaks position:sticky */
+    overflow-x: clip;
+  }
+
+  img,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  /* Prevent flex/grid children from forcing page overflow */
+  .content-wrap,
+  .site-wrap,
+  section,
+  article,
+  .min-w-0 {
+    min-width: 0;
+  }
+}
+
+/* Soften hover lift on coarse pointers so cards do not jump on tap */
+@media (hover: none) {
+  .card-lift:hover,
+  .fx1-card:hover,
+  .fx2-panel:hover,
+  .cta-box:hover {
+    transform: none;
+  }
+}
+
+/* Horizontal rails (category bar, card rails) — no page-level overflow */
+.scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Vertical rhythm — tighter on phones, roomier on large desks */
+.section-y {
+  padding-block: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+@media (min-width: 993px) {
+  .section-y {
+    padding-block: clamp(3.5rem, 5.5vw, 5.5rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  .section-y {
+    padding-block: clamp(4.5rem, 4vw, 6.5rem);
+  }
+}
+
+/* Headings that scale and wrap cleanly without overflowing the content column */
+.heading-fit {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  text-wrap: balance;
+  line-height: 1.05;
+}
+
+h1.heading-fit {
+  font-size: clamp(2.05rem, 4.6vw, 4.65rem) !important;
+}
+
+h2.heading-fit {
+  font-size: clamp(1.85rem, 3.6vw, 3.5rem) !important;
+}
+
+/*
+ * Type hierarchy on light surfaces:
+ * - Headings (h1–h4) → brand red
+ * - Small uppercase kickers (HEAVY CATALOGUE, etc.) → green
+ * On green surfaces: headings stay white; kickers keep accent/yellow utilities.
+ */
+main :is(h1, h2, h3, h4) {
+  color: var(--color-accent) !important;
+}
+
+#site-hero :is(h1, h2, h3, h4),
+main .bg-primary :is(h1, h2, h3, h4),
+main [class*='bg-[#034a32]'] :is(h1, h2, h3, h4),
+main [class*='bg-[#023d26]'] :is(h1, h2, h3, h4),
+main .fx1-card :is(h1, h2, h3, h4),
+main .fx2-panel :is(h1, h2, h3, h4),
+footer :is(h1, h2, h3, h4) {
+  color: #ffffff !important;
+}
+
+/* Nested light panels inside a green section keep red headings */
+main .bg-primary .bg-white :is(h1, h2, h3, h4),
+main .bg-primary [class*='bg-primary/'] :is(h1, h2, h3, h4) {
+  color: var(--color-accent) !important;
+}
+
+/* Small uppercase kickers above titles — green on light, yellow on green */
+@layer components {
+  .section-kicker {
+    color: var(--color-primary);
+  }
+
+  .bg-primary .section-kicker,
+  [class*='bg-[#034a32]'] .section-kicker,
+  [class*='bg-[#023d26]'] .section-kicker,
+  .fx1-card .section-kicker,
+  .fx2-panel .section-kicker {
+    color: var(--color-yellow);
+  }
+}
+
+/* Image columns that fill sibling height without empty white bands */
+.media-fill {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .media-fill {
+    min-height: 280px;
+  }
+}
+
+@media (min-width: 993px) {
+  .media-fill {
+    height: 100%;
+    min-height: 300px;
+  }
+}
+
+.media-fill > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 993px) {
+  .media-fill > img {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+.brand-action-word {
+  color: #e10600;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  /* Cleaner, lighter depth on phones */
+  text-shadow:
+    0 1px 0 #c40000,
+    0 2px 0 #a80000,
+    0 3px 0 #8f0000,
+    1px 4px 8px rgba(0, 0, 0, 0.22);
+}
+
+@media (min-width: 768px) {
+  .brand-action-word {
+    color: #ff1a1a;
+    letter-spacing: -0.02em;
+    paint-order: stroke fill;
+    -webkit-text-stroke: 0.5px #c40000;
+    text-shadow:
+      0 1px 0 #d41818,
+      0 2px 0 #b81212,
+      0 3px 0 #9e0f0f,
+      0 4px 0 #860d0d,
+      0 5px 0 #6e0a0a,
+      0 6px 0 #580808,
+      1px 7px 0 #450606,
+      2px 8px 10px rgba(0, 0, 0, 0.22),
+      0 10px 18px rgba(228, 0, 0, 0.28),
+      0 0 1px rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* Long prose — left accent rail (Precast-style callout) */
+.prose-rail {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1.15rem;
+  max-width: min(68rem, 100%);
+}
+
+@media (min-width: 640px) {
+  .prose-rail {
+    padding-left: 1.35rem;
+  }
+}
+
+.prose-rail p + p {
+  margin-top: 1.15rem;
+}
+
+.prose-rail-on-dark {
+  border-left-color: var(--color-yellow);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.prose-rail-wide {
+  max-width: 100%;
+}
+
+/* Section titles — use full content width (no artificial ch wraps) */
+.section-title {
+  max-width: none;
+  text-wrap: balance;
+  font-size: clamp(1.9rem, 3.7vw, 3.45rem) !important;
+  line-height: 1.08 !important;
+}
+
+/*
+  Section polish presets (say “effect 1” or “effect 2” in prompts):
+  - Effect 1 (.fx1-card): left yellow bar, lift, heading → yellow on hover
+  - Effect 2 (.fx2-panel): top yellow rule + corners + grid wash; heading underline grows on hover
+*/
+
+.fx1-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(254 199 0 / 0.25);
+  background: #034a32;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.fx1-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--color-yellow);
+  transition: width 0.3s ease;
+}
+
+.fx1-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-yellow);
+  background: #045c3e;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+}
+
+.fx1-card:hover::before {
+  width: 6px;
+}
+
+.fx1-card .fx1-title {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.fx1-card:hover .fx1-title {
+  color: var(--color-yellow);
+}
+
+.fx2-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background:
+    linear-gradient(135deg, rgb(254 199 0 / 0.08), transparent 42%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      rgb(255 255 255 / 0.035) 27px,
+      rgb(255 255 255 / 0.035) 28px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 27px,
+      rgb(255 255 255 / 0.035) 27px,
+      rgb(255 255 255 / 0.035) 28px
+    ),
+    #023d26;
+  color: #fff;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.fx2-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-yellow), transparent 72%);
+}
+
+.fx2-panel:hover {
+  border-color: rgb(254 199 0 / 0.45);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  transform: translateY(-3px);
+}
+
+.fx2-corners {
+  pointer-events: none;
+  position: absolute;
+  inset: 12px;
+}
+
+.fx2-corners span {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--color-yellow);
+  border-style: solid;
+  opacity: 0.75;
+}
+
+.fx2-corners span:nth-child(1) {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.fx2-corners span:nth-child(2) {
+  top: 0;
+  right: 0;
+  border-width: 2px 2px 0 0;
+}
+
+.fx2-corners span:nth-child(3) {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 2px 2px;
+}
+
+.fx2-corners span:nth-child(4) {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+.fx2-kicker {
+  display: block;
+  width: fit-content;
+  border: 1px solid var(--color-yellow);
+  background: rgb(254 199 0 / 0.12);
+  padding: 0.3rem 0.65rem;
+  color: var(--color-yellow);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.fx2-title {
+  position: relative;
+  display: block;
+  max-width: 22ch;
+  margin-top: 1.5rem;
+  color: #ffffff;
+}
+
+.fx2-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.4rem;
+  width: 3.5rem;
+  height: 3px;
+  background: var(--color-yellow);
+  transition: width 0.35s ease;
+}
+
+.fx2-panel:hover .fx2-title::after {
+  width: min(100%, 22ch);
+}
+
+/* Red accent variant — this listing box only */
+.fx2-panel-red {
+  border-color: rgb(200 36 37 / 0.35);
+}
+
+.fx2-panel-red::before {
+  height: 6px;
+  background: var(--color-accent);
+}
+
+.fx2-panel-red:hover {
+  border-color: rgb(200 36 37 / 0.65);
+}
+
+.fx2-panel-red .fx2-corners span {
+  border-color: var(--color-accent);
+}
+
+.fx2-panel-red .fx2-kicker {
+  border-color: var(--color-accent);
+  background: rgb(200 36 37 / 0.14);
+  color: var(--color-accent);
+}
+
+.fx2-panel-red .fx2-title::after {
+  background: var(--color-accent);
+}
+
+.fx2-panel-red .fx2-cta {
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.fx2-panel-red .fx2-cta:hover {
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 10px 22px rgb(200 36 37 / 0.28);
+}
+
+.fx2-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+  border: 1px solid var(--color-yellow);
+  background: transparent;
+  padding: 0.7rem 1.1rem;
+  color: var(--color-yellow);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.fx2-cta:hover {
+  background: var(--color-yellow);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgb(254 199 0 / 0.25);
+}
+
+/* Cards / boxes — clean lift on hover */
+.card-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgb(2 61 38 / 0.12);
+}
+
+.card-lift-on-dark:hover {
+  box-shadow: 0 14px 28px rgb(0 0 0 / 0.28);
+}
+
+/* Red marketing CTAs — slight lift, yellow edge, arrow nudge */
+.cta-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border: none;
+  background-color: var(--color-accent);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background-color: var(--color-yellow);
+  transition: width 0.3s ease;
+}
+
+.cta-box:hover {
+  transform: translateY(-3px);
+  background-color: var(--color-accent);
+  box-shadow: 0 12px 24px rgb(200 36 37 / 0.32);
+}
+
+.cta-box:hover::before {
+  width: 4px;
+}
+
+.cta-box > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-box .cta-box-arrow {
+  transition: transform 0.3s ease;
+}
+
+.cta-box:hover .cta-box-arrow {
+  transform: translateX(4px);
+}
+
+@keyframes ad-fade {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes testimonial-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes testimonial-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes testimonial-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@keyframes testimonial-down {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+
+.t-left { animation: testimonial-left 46s linear infinite; }
+.t-right { animation: testimonial-right 52s linear infinite; }
+.t-up { animation: testimonial-up 38s linear infinite; }
+.t-down { animation: testimonial-down 44s linear infinite; }
+
+.t-row:hover .t-left,
+.t-row:hover .t-right,
+.t-row:hover .t-up,
+.t-row:hover .t-down {
+  animation-play-state: paused;
+}
+
+html.farm-large-type {
+  font-size: 17.5px;
+}
+
+@media (min-width: 768px) {
+  html.farm-large-type {
+    font-size: 18.5px;
+  }
+}
+
+html.farm-reduce-motion *,
+html.farm-reduce-motion *::before,
+html.farm-reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
